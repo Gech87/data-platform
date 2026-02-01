@@ -1,0 +1,9 @@
+# This creates: dev-postgres-pvc (unique to dev)
+
+patchesStrategicMerge:
+- postgres-patch.yaml
+
+namePrefix: dev-
+commonLabels:
+  environment: dev
+
