@@ -1,0 +1,128 @@
+version: '3.8'
+
+# Define all volumes first for clarity
+volumes:
+  postgres-data:
+  pgadmin-data:
+  portainer-data:
+  airbyte-data:  # For Airbyte's persistent storage
+  airbyte-tmp:   # For Airbyte's temporary files
+
+# Define networks for service isolation
+networks:
+  data-network:
+    driver: bridge
+  management-network:
+    driver: bridge
+
+services:
+  # PostgreSQL Database - Data Warehouse
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Can override with .env
+      POSTGRES_DB: postgresdwhdev
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql  # PostgreSQL 18+ structure
+      - ./init-scripts:/docker-entrypoint-initdb.d:ro  # Optional initialization scripts
+    networks:
+      - data-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    command: >
+      postgres 
+      -c max_connections=100
+      -c shared_buffers=256MB
+      -c effective_cache_size=1GB
+
+  # pgAdmin - Database Management Interface
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro  # Pre-configured servers
+    networks:
+      - data-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Portainer - Container Management
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    command: -H unix:///var/run/docker.sock
+    ports:
+      - "9001:9000"
+      - "9443:9443"  # SSL port
+    volumes:
+      - portainer-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./portainer/certs:/certs:ro  # Optional SSL certificates
+    networks:
+      - management-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Airbyte - Data Integration Platform
+  airbyte:
+    # Note: Airbyte typically requires multiple containers
+    # This is a simplified version based on your current setup
+    image: kindest/node:v1.32.2  # Your current Airbyte control plane
+    container_name: airbyte-abctl-control-plane
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+      - "38677:6443"
+    volumes:
+      - airbyte-data:/var/local-path-provisioner
+      - /home/gekko/.airbyte/abctl/data:/var/local-path-provisioner:ro  # Bind mount from host
+      - /lib/modules:/lib/modules:ro
+      - ./airbyte/config:/config:ro  # For custom configurations
+    networks:
+      - data-network
+      - management-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # Note: Airbyte proper would require more containers (server, worker, db, etc.)
+    # This maintains your current setup while documenting it
+
+# Optional: Add monitoring services
+#  prometheus:
+#    image: prom/prometheus:latest
+#    ports:
+#      - "9090:9090"
+#    volumes:
+#      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+#      - prometheus-data:/prometheus
+#    networks:
+#      - management-network

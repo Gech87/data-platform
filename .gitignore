@@ -1,0 +1,56 @@
+# Docker Compose
+.env
+.env.*
+!.env.example
+docker-compose.override.yml
+
+# Secrets & Sensitive Data
+secrets/
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Docker volumes (if you ever bind-mount locally)
+volumes/
+data/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary Files
+tmp/
+temp/
+
+# Backups
+*.bak
+backup/
+*.sql.gz
+*.tar.gz
+
+# Airbyte specific (from your setup)
+/home/gekko/.airbyte/
+
+# Portainer certificates (if any)
+certs/
+
+# Kubernetes (for future)
+.kube/
+kubeconfig
