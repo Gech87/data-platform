@@ -8,7 +8,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 5Gi  # Smaller for dev
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -21,4 +21,11 @@ spec:
       - name: postgres
         env:
         - name: POSTGRES_DB
-          value: "postgresdwhdev_dev"  # Environment-specific DB name
+          value: "postgresdwhdev_dev"  # Dev-specific DB name
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"

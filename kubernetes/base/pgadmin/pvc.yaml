@@ -1,14 +1,11 @@
 apiVersion: v1
-kind: Service
+kind: PersistentVolumeClaim
 metadata:
-  name: pgadmin
-  labels:
-    app: pgadmin
+  name: pgadmin-pvc
 spec:
-  ports:
-  - port: 80          # Service port
-    targetPort: 80    # Container port
-    nodePort: 30080   # Optional: For NodePort type (30000-32767)
-  selector:
-    app: pgadmin
-  type: NodePort      # For local access; use LoadBalancer in cloud
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard
