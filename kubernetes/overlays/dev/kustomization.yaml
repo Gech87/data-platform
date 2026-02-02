@@ -12,12 +12,11 @@ resources:
   - namespace.yaml
   - ../../base/postgres
   - ../../base/pgadmin
-  - ../../base/portainer
+
 
 patchesStrategicMerge:
   - postgres-patch.yaml
   - pgadmin-patch.yaml
-  - portainer-patch.yaml
 
 secretGenerator:
   - name: postgres-secret
@@ -35,7 +34,5 @@ secretGenerator:
 # Optional: Image tag overrides
 images:
   - name: postgres
-    newTag: latest
-  - name: portainer/portainer-ce
     newTag: latest
 
