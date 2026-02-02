@@ -37,7 +37,7 @@ images:
   - name: postgres
     newTag: latest
   - name: dpage/pgadmin4
-    newTag: latest
+    newTag: 8.0
   - name: portainer/portainer-ce
     newTag: latest
 
