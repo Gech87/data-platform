@@ -29,3 +29,17 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "250m"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-postgres
+        env:
+        - name: POSTGRES_SERVICE_NAME
+          value: "dev-postgres"
+        command: ['sh', '-c', 'until nc -z $POSTGRES_SERVICE_NAME 5432; do echo waiting for postgres; sleep 2; done']
