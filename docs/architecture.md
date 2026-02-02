@@ -1,4 +1,4 @@
-# Data Platform Architecture Documentation**
+# Data Platform Architecture Documentation
 
 ## *Overview*
 A modern, production-ready data platform built with microservices architecture and GitOps principles. This platform provides end-to-end data capabilities from ingestion to visualization, all managed through infrastructure-as-code practices.
