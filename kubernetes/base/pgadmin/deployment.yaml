@@ -22,7 +22,7 @@ spec:
         command: ['sh', '-c', 'until nc -z dev-postgres 5432; do echo waiting for postgres; sleep 2; done']
       containers:
       - name: pgadmin
-        image: dpage/pgadmin4:latest
+        image: dpage/pgadmin4:8.0
         env:
         - name: PGADMIN_DEFAULT_EMAIL
           valueFrom:
@@ -41,23 +41,25 @@ spec:
           mountPath: /var/lib/pgadmin
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "100m"
+            memory: "256Mi"
+            cpu: "200m"
           limits:
             memory: "256Mi"
-            cpu: "250m"
+            cpu: "500m"
         livenessProbe:
           httpGet:
             path: /
             port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 10
+          initialDelaySeconds: 130
+          periodSeconds: 20
+          failureThreshold: 3
         readinessProbe:
           httpGet:
             path: /
             port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          failureThreshold: 3
       volumes:
       - name: pgadmin-data
         persistentVolumeClaim:
