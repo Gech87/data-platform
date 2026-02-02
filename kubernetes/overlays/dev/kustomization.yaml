@@ -12,7 +12,7 @@ resources:
   - namespace.yaml
   - ../../base/postgres
   - ../../base/pgadmin
-
+  - ../../base/airbyte
 
 patchesStrategicMerge:
   - postgres-patch.yaml

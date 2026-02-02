@@ -1,0 +1,63 @@
+# kubernetes/base/airbyte/server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airbyte-server
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airbyte
+      component: server
+  template:
+    metadata:
+      labels:
+        app: airbyte
+        component: server
+    spec:
+      initContainers:
+      - name: wait-for-db
+        image: busybox:1.35
+        command: ['sh', '-c', 'until nc -z airbyte-db 5432; do echo waiting for airbyte database; sleep 2; done']
+      containers:
+      - name: server
+        image: airbyte/server:0.50.4
+        env:
+        - name: DATABASE_URL
+          value: postgresql://airbyte:airbyte_password@airbyte-db:5432/airbyte
+        - name: CONFIG_ROOT
+          value: /config
+        - name: WORKSPACE_ROOT
+          value: /workspace
+        - name: LOCAL_ROOT
+          value: /tmp/airbyte/local
+        ports:
+        - containerPort: 8001
+        volumeMounts:
+        - name: airbyte-config
+          mountPath: /config
+        - name: airbyte-workspace
+          mountPath: /workspace
+        - name: airbyte-tmp
+          mountPath: /tmp/airbyte
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: airbyte-server
+spec:
+  ports:
+  - port: 8001
+    targetPort: 8001
+  selector:
+    app: airbyte
+    component: server
