@@ -50,6 +50,6 @@ spec:
       - name: docker-socket
         hostPath:
           path: /var/run/docker.sock
-          type: File
+          type: Socket
       - name: portainer-data
         emptyDir: {}  # Change to PVC for production
