@@ -54,3 +54,5 @@ certs/
 # Kubernetes (for future)
 .kube/
 kubeconfig
+
+chat.md
