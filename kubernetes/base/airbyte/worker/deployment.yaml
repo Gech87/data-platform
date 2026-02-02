@@ -1,0 +1,56 @@
+# kubernetes/base/airbyte/worker/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airbyte-worker
+  annotations:
+    argocd.argoproj.io/sync-wave: "11"  # After server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airbyte
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: airbyte
+        component: worker
+    spec:
+      initContainers:
+      - name: wait-for-server
+        image: busybox:1.35
+        command: ['sh', '-c', 'until nc -z airbyte-server 8001; do echo waiting for airbyte server; sleep 2; done']
+      containers:
+      - name: worker
+        image: airbyte/worker:0.50.4
+        env:
+        - name: DATABASE_URL
+          value: postgresql://airbyte:airbyte_password@airbyte-db:5432/airbyte
+        - name: CONFIG_ROOT
+          value: /config
+        - name: WORKSPACE_ROOT
+          value: /workspace
+        - name: LOCAL_ROOT
+          value: /tmp/airbyte/local
+        volumeMounts:
+        - name: airbyte-config
+          mountPath: /config
+        - name: airbyte-workspace
+          mountPath: /workspace
+        - name: airbyte-tmp
+          mountPath: /tmp/airbyte
+        - name: docker-socket
+          mountPath: /var/run/docker.sock
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+      volumes:
+      - name: docker-socket
+        hostPath:
+          path: /var/run/docker.sock
+          type: Socket

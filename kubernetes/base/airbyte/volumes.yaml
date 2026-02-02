@@ -1,0 +1,41 @@
+# kubernetes/base/airbyte/volumes.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: airbyte-config-pvc
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: airbyte-workspace-pvc
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: airbyte-tmp-pvc
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

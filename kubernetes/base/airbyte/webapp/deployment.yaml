@@ -1,0 +1,54 @@
+# kubernetes/base/airbyte/webapp/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airbyte-webapp
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"  # After worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airbyte
+      component: webapp
+  template:
+    metadata:
+      labels:
+        app: airbyte
+        component: webapp
+    spec:
+      initContainers:
+      - name: wait-for-server
+        image: busybox:1.35
+        command: ['sh', '-c', 'until nc -z airbyte-server 8001; do echo waiting for airbyte server; sleep 2; done']
+      containers:
+      - name: webapp
+        image: airbyte/webapp:0.50.4
+        env:
+        - name: API_URL
+          value: http://airbyte-server:8001
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: airbyte-webapp
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30081
+  selector:
+    app: airbyte
+    component: webapp

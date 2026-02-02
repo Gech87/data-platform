@@ -1,0 +1,61 @@
+# kubernetes/base/airbyte/db/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airbyte-db
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"  # Before Airbyte, after main postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airbyte
+      component: database
+  template:
+    metadata:
+      labels:
+        app: airbyte
+        component: database
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:13-alpine
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "airbyte_password"
+        - name: POSTGRES_DB
+          value: "airbyte"
+        - name: POSTGRES_USER
+          value: "airbyte"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: airbyte-db-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: airbyte-db-data
+        persistentVolumeClaim:
+          claimName: airbyte-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: airbyte-db
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: airbyte
+    component: database
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: airbyte-db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

@@ -1,0 +1,10 @@
+# kubernetes/base/airbyte/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - volumes.yaml
+  - db/deployment.yaml
+  - server/deployment.yaml
+  - worker/deployment.yaml
+  - webapp/deployment.yaml
