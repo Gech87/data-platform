@@ -1,3 +1,4 @@
+#/home/gekko/data-projects/data-platform/kubernetes/base/postgres/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 

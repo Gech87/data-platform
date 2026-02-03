@@ -1,10 +1,10 @@
-# kubernetes/base/airbyte/db/deployment.yaml
+#kubernetes/base/airbyte/db/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: airbyte-db
   annotations:
-    argocd.argoproj.io/sync-wave: "5"  # Before Airbyte, after main postgres
+    argocd.argoproj.io/sync-wave: "1"  # Before Airbyte, after main postgres
 spec:
   replicas: 1
   selector:

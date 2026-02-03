@@ -1,3 +1,4 @@
+#/kubernetes/base/pgadmin/pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
