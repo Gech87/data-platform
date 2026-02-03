@@ -23,5 +23,5 @@ Core Design Principles
 
 6. Data Pipeline as Code: Transformations (dbt) and visualizations (Superset) version-controlled
 
-![System Architecture.](docs/images/data-platform-architecture.png "Complete Data Pipeline Flow.")
+![System Architecture.]([docs/images/data-platform-architecture.png](https://github.com/Gech87/data-platform/blob/main/docs/images/data-platform-architecture.png) "Complete Data Pipeline Flow.")
 Observability First: Built-in health checks, logging, and monitoring
