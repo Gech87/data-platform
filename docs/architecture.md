@@ -1,16 +1,22 @@
-**Data Platform Architecture Documentation**
+# **Data Platform Architecture Documentation**
+## **Overview**
+A modern, production-ready data platform built with microservices architecture and GitOps principles. This platform provides end-to-end data capabilities from ingestion to transformation to visualization, all managed through infrastructure-as-code practices.
 
-*Overview*
-A modern, production-ready data platform built with microservices architecture and GitOps principles. This platform provides end-to-end data capabilities from ingestion to visualization, all managed through infrastructure-as-code practices.
-
-*Architecture Principles*
+## **Architecture Principles**
 Core Design Principles
-GitOps First: All infrastructure and application configurations are stored in Git
+1. GitOps First: All infrastructure and application configurations are stored in Git
 
-Microservices Isolation: Each component runs in its own container with clear boundaries
+2. Microservices Isolation: Each component runs in its own container with clear boundaries
 
-Environment Parity: Identical configurations across development, staging, and production
+3. Environment Parity: Identical configurations across development, staging, and production
 
-Declarative Infrastructure: Everything defined as code (YAML manifests)
+4. Declarative Infrastructure: Everything defined as code (YAML manifests)
 
-Observability First: Built-in health checks, logging, and monitoring
+5. Observability First: Built-in health checks, logging, and monitoring
+
+6. Data Pipeline as Code: Transformations (dbt) and visualizations (Superset) version-controlled
+
+System Architecture
+Complete Data Pipeline Flow
+
+![System Architecture.](/images/data-platform-architecture.svg "System Architecture")
