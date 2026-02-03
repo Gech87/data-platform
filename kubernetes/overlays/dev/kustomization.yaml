@@ -9,6 +9,17 @@ commonLabels:
   environment: dev
   tier: platform
 
+
+nameReference:
+  - kind: PersistentVolumeClaim
+    version: v1
+    fieldSpecs:
+      - path: spec/volumes/persistentVolumeClaim/claimName
+        kind: Deployment
+      - path: spec/template/spec/volumes/persistentVolumeClaim/claimName
+        kind: Deployment
+
+
 resources:
   - namespace.yaml
   - ../../base/postgres
