@@ -4,7 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: airbyte-config-pvc
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "9"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: airbyte-workspace-pvc
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "9"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -32,7 +32,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: airbyte-tmp-pvc
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "9"
 spec:
   accessModes:
     - ReadWriteOnce
