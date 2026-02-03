@@ -49,15 +49,13 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "500m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: airbyte-server
-spec:
-  ports:
-  - port: 8001
-    targetPort: 8001
-  selector:
-    app: airbyte
-    component: server
+      volumes:
+      - name: airbyte-config
+        persistentVolumeClaim:
+          claimName: airbyte-config-pvc
+      - name: airbyte-workspace
+        persistentVolumeClaim:
+          claimName: airbyte-workspace-pvc
+      - name: airbyte-tmp
+        persistentVolumeClaim:
+          claimName: airbyte-tmp-pvc

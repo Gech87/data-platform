@@ -54,3 +54,12 @@ spec:
         hostPath:
           path: /var/run/docker.sock
           type: Socket
+      - name: airbyte-config
+        persistentVolumeClaim:
+          claimName: airbyte-config-pvc
+      - name: airbyte-workspace
+        persistentVolumeClaim:
+          claimName: airbyte-workspace-pvc
+      - name: airbyte-tmp
+        persistentVolumeClaim:
+          claimName: airbyte-tmp-pvc

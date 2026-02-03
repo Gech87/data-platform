@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pgadmin
+  annotations:
+    argocd.argoproj.io/sync-wave: "13"
   labels:
     app: pgadmin
     component: database-admin

@@ -1,0 +1,14 @@
+#/data-platform/kubernetes/base/airbyte/server/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: airbyte-server
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"  # Ensure Airbyte server is created after Airbyte DB
+spec:
+  ports:
+  - port: 8001
+    targetPort: 8001
+  selector:
+    app: airbyte
+    component: server

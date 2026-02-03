@@ -2,6 +2,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: airbyte-server
+spec:
+  template:
+    spec:
+      volumes:
+      - name: airbyte-config
+        persistentVolumeClaim:
+          claimName: dev-airbyte-config-pvc
+      - name: airbyte-workspace
+        persistentVolumeClaim:
+          claimName: dev-airbyte-workspace-pvc
+      - name: airbyte-tmp
+        persistentVolumeClaim:
+          claimName: dev-airbyte-tmp-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airbyte-worker
+spec:
+  template:
+    spec:
+      volumes:
+      - name: airbyte-config
+        persistentVolumeClaim:
+          claimName: dev-airbyte-config-pvc
+      - name: airbyte-workspace
+        persistentVolumeClaim:
+          claimName: dev-airbyte-workspace-pvc
+      - name: airbyte-tmp
+        persistentVolumeClaim:
+          claimName: dev-airbyte-tmp-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: airbyte-db
 spec:
   template:
@@ -9,7 +45,7 @@ spec:
       volumes:
       - name: airbyte-db-data
         persistentVolumeClaim:
-          claimName: dev-airbyte-db-pvc  # Add "dev-" prefix
+          claimName: dev-airbyte-db-pvc
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -21,7 +57,7 @@ spec:
       volumes:
       - name: postgres-data
         persistentVolumeClaim:
-          claimName: dev-postgres-pvc  # Add "dev-" prefix
+          claimName: dev-postgres-pvc
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -33,4 +69,4 @@ spec:
       volumes:
       - name: pgadmin-data
         persistentVolumeClaim:
-          claimName: dev-pgadmin-pvc  # Add "dev-" prefix
+          claimName: dev-pgadmin-pvc
