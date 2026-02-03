@@ -3,7 +3,6 @@
 A modern, production-ready data platform built with microservices architecture and GitOps principles. This platform provides end-to-end data capabilities from ingestion to transformation to visualization, all managed through infrastructure-as-code practices.
 
 ## **Architecture Principles**
-=======
 # Data Platform Architecture Documentation
 
 ## *Overview*
@@ -25,6 +24,5 @@ Core Design Principles
 6. Data Pipeline as Code: Transformations (dbt) and visualizations (Superset) version-controlled
 
 ![System Architecture.](/images/data-platform-architecture.svg "Complete Data Pipeline Flow")
-=======
 Observability First: Built-in health checks, logging, and monitoring
 
