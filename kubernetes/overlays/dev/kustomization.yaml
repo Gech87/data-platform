@@ -5,35 +5,37 @@ kind: Kustomization
 namespace: data-platform-dev
 
 namePrefix: dev-
-commonLabels:
-  environment: dev
-  tier: platform
 
 resources:
-  - namespace.yaml
-  - ../../base/postgres
-  - ../../base/pgadmin
-  - ../../base/airbyte
+- namespace.yaml
+- ../../base/postgres
+- ../../base/pgadmin
+- ../../base/airbyte
 
-patchesStrategicMerge:
-  - postgres-patch.yaml
-  - pgadmin-patch.yaml
 
 secretGenerator:
-  - name: postgres-secret
-    literals:
-      - password=dev_password_123
-    options:
-      disableNameSuffixHash: true
-  - name: pgadmin-secret
-    literals:
-      - email=dev@example.com
-      - password=dev_pgadmin_pass
-    options:
-      disableNameSuffixHash: true
+- literals:
+  - password=dev_password_123
+  name: postgres-secret
+  options:
+    disableNameSuffixHash: true
+- literals:
+  - email=dev@example.com
+  - password=dev_pgadmin_pass
+  name: pgadmin-secret
+  options:
+    disableNameSuffixHash: true
 
 # Optional: Image tag overrides
 images:
-  - name: postgres
-    newTag: latest
-
+- name: postgres
+  newTag: latest
+labels:
+- includeSelectors: true
+  pairs:
+    environment: dev
+    tier: platform
+patches:
+- path: postgres-patch.yaml
+- path: pgadmin-patch.yaml
+- path: pvc-reference-patch.yaml
