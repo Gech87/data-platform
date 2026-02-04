@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: standard # Use the 'immediate' storage class defined elsewhere
+  storageClassName: standard # Use the 'standard' storage class defined elsewhere
   resources:
     requests:
       storage: 1Gi
