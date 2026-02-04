@@ -4,10 +4,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: airbyte-config-pvc
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "9"
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: standard # Use the 'standard' storage class defined elsewhere
   resources:
     requests:
       storage: 1Gi
@@ -18,10 +19,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: airbyte-workspace-pvc
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "9"
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: standard # Ensure consistent storage class
   resources:
     requests:
       storage: 10Gi
@@ -32,10 +34,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: airbyte-tmp-pvc
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "9"
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: standard # Ensure consistent storage class
   resources:
     requests:
       storage: 5Gi

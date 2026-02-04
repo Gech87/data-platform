@@ -1,12 +1,14 @@
 #/kubernetes/base/postgres/pvc.yaml
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolumeClaim # PVC for PostgreSQL data storage
 metadata:
-  name: postgres-pvc
+  name: postgres-pvc # Name of the PVC
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"  # Ensure PVC is created before other resources
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce # PostgreSQL typically requires ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
-  storageClassName: standard  # Adjust for your cluster
+      storage: 10Gi # Adjust size as needed
+  storageClassName: standard # Use the 'standard' storage class 

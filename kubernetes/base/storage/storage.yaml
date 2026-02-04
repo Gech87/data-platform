@@ -1,0 +1,11 @@
+#/kubernetes/base/storage/storage.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: immediate
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+provisioner: rancher.io/local-path
+volumeBindingMode: Immediate  # This is the key change
+reclaimPolicy: Delete
+allowVolumeExpansion: true

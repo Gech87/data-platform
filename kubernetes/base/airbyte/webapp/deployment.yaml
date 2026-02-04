@@ -36,19 +36,3 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "250m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: airbyte-webapp
-  annotations:
-    argocd.argoproj.io/sync-wave: "12"
-spec:
-  type: NodePort
-  ports:
-  - port: 80
-    targetPort: 80
-    nodePort: 30081
-  selector:
-    app: airbyte
-    component: webapp

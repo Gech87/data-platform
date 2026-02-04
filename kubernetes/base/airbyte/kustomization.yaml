@@ -5,6 +5,9 @@ kind: Kustomization
 resources:
   - volumes.yaml
   - db/deployment.yaml
+  - db/service.yaml
   - server/deployment.yaml
+  - server/service.yaml
   - worker/deployment.yaml
   - webapp/deployment.yaml
+  - webapp/service.yaml

@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
   labels:
     app: postgres
     component: database
@@ -47,7 +49,7 @@ spec:
             command:
             - sh
             - -c
-            - exec pg_isready -U admin
+            - exec pg_isready -U admin -d postgresdwhdev # Check if Postgres is ready to accept connections
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
@@ -55,24 +57,10 @@ spec:
             command:
             - sh
             - -c
-            - exec pg_isready -U admin
+            - exec pg_isready -U admin -d postgresdwhdev # Check if Postgres is ready to accept connections
           initialDelaySeconds: 5
           periodSeconds: 5
       volumes:
       - name: postgres-data
         persistentVolumeClaim:
           claimName: postgres-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres
-  labels:
-    app: postgres
-spec:
-  ports:
-  - port: 5432
-    targetPort: 5432
-  selector:
-    app: postgres
-  type: ClusterIP  # Internal only

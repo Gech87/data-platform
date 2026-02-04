@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pgadmin
+  annotations:
+    argocd.argoproj.io/sync-wave: "13"
   labels:
     app: pgadmin
     component: database-admin
@@ -20,7 +22,7 @@ spec:
       initContainers:
       - name: wait-for-postgres
         image: busybox:1.35
-        command: ['sh', '-c', 'until nc -z dev-postgres 5432; do echo waiting for postgres; sleep 2; done']
+        command: ['sh', '-c', 'until nc -z dev-postgres 5432; do echo waiting for dev-postgres; sleep 2; done']
       containers:
       - name: pgadmin
         image: dpage/pgadmin4:8.0

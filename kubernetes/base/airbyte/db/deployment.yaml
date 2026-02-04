@@ -1,10 +1,10 @@
-#kubernetes/base/airbyte/db/deployment.yaml
+#/kubernetes/base/airbyte/db/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: airbyte-db
   annotations:
-    argocd.argoproj.io/sync-wave: "1"  # Before Airbyte, after main postgres
+    argocd.argoproj.io/sync-wave: "2" # Ensure Airbyte DB is created after Postgres PVC
 spec:
   replicas: 1
   selector:
@@ -36,28 +36,18 @@ spec:
       - name: airbyte-db-data
         persistentVolumeClaim:
           claimName: airbyte-db-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: airbyte-db
-spec:
-  ports:
-  - port: 5432
-    targetPort: 5432
-  selector:
-    app: airbyte
-    component: database
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: airbyte-db-pvc
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "1" # Ensure PVC is created before the deployment
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce   # Airbyte DB typically requires ReadWriteOnce
+  storageClassName: standard  # Use the 'standard' storage class defined elsewhere
   resources:
     requests:
-      storage: 5Gi
+      storage: 5Gi    # Adjust size as needed
