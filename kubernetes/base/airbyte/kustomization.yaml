@@ -6,5 +6,7 @@ resources:
   - volumes.yaml
   - db/deployment.yaml
   - server/deployment.yaml
+  - server/service.yaml
   - worker/deployment.yaml
   - webapp/deployment.yaml
+  - webapp/service.yaml

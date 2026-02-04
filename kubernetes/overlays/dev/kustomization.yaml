@@ -8,6 +8,7 @@ namePrefix: dev-
 
 resources:
 - namespace.yaml
+- ../../base/storage/storage.yaml
 - ../../base/postgres
 - ../../base/pgadmin
 - ../../base/airbyte
