@@ -59,7 +59,6 @@ spec:
       - name: airbyte-tmp
         persistentVolumeClaim:
           claimName: airbyte-tmp-pvc
-<<<<<<< HEAD
 ---
 apiVersion: v1
 kind: Service
@@ -72,5 +71,3 @@ spec:
   selector:
     app: airbyte
     component: server
-=======
->>>>>>> 8a3ec63347ebea464c00aad8b41942e0671ae97c
