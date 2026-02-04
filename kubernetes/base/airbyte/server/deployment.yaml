@@ -23,7 +23,7 @@ spec:
         command: ['sh', '-c', 'until nc -z airbyte-db 5432; do echo waiting for airbyte database; sleep 2; done']
       containers:
       - name: server
-        image: airbyte/server:0.50.4
+        image: airbyte/server:0.57.0
         env:
         - name: DATABASE_URL
           value: postgresql://airbyte:airbyte_password@airbyte-db:5432/airbyte
@@ -49,6 +49,16 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "500m"
+      volumes:
+      - name: airbyte-config
+        persistentVolumeClaim:
+          claimName: airbyte-config-pvc
+      - name: airbyte-workspace
+        persistentVolumeClaim:
+          claimName: airbyte-workspace-pvc
+      - name: airbyte-tmp
+        persistentVolumeClaim:
+          claimName: airbyte-tmp-pvc
 ---
 apiVersion: v1
 kind: Service

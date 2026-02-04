@@ -23,7 +23,7 @@ spec:
         command: ['sh', '-c', 'until nc -z airbyte-server 8001; do echo waiting for airbyte server; sleep 2; done']
       containers:
       - name: webapp
-        image: airbyte/webapp:0.50.4
+        image: airbyte/webapp:0.57.0
         env:
         - name: API_URL
           value: http://airbyte-server:8001

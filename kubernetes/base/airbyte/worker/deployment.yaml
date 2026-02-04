@@ -23,7 +23,7 @@ spec:
         command: ['sh', '-c', 'until nc -z airbyte-server 8001; do echo waiting for airbyte server; sleep 2; done']
       containers:
       - name: worker
-        image: airbyte/worker:0.50.4
+        image: airbyte/worker:0.57.0
         env:
         - name: DATABASE_URL
           value: postgresql://airbyte:airbyte_password@airbyte-db:5432/airbyte
@@ -50,6 +50,15 @@ spec:
             memory: "2Gi"
             cpu: "1000m"
       volumes:
+      - name: airbyte-config
+        persistentVolumeClaim:
+          claimName: airbyte-config-pvc
+      - name: airbyte-workspace
+        persistentVolumeClaim:
+          claimName: airbyte-workspace-pvc
+      - name: airbyte-tmp
+        persistentVolumeClaim:
+          claimName: airbyte-tmp-pvc
       - name: docker-socket
         hostPath:
           path: /var/run/docker.sock
