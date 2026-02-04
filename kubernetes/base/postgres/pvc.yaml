@@ -4,11 +4,11 @@ kind: PersistentVolumeClaim # PVC for PostgreSQL data storage
 metadata:
   name: postgres-pvc # Name of the PVC
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"  # Ensure PVC is created before other resources
+    argocd.argoproj.io/sync-wave: "0"  # Same wave as deployment
 spec:
   accessModes:
     - ReadWriteOnce # PostgreSQL typically requires ReadWriteOnce
   resources:
     requests:
       storage: 10Gi # Adjust size as needed
-  storageClassName: standard # Use the 'standard' storage class 
+  storageClassName: standard # Use the 'standard' storage class
