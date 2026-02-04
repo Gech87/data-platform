@@ -8,7 +8,7 @@ namePrefix: dev-
 
 resources:
 - namespace.yaml
-- ../../base/storage/storage.yaml
+- storage.yaml
 - ../../base/postgres
 - ../../base/pgadmin
 - ../../base/airbyte
@@ -17,6 +17,7 @@ patches:
 - path: postgres-patch.yaml
 - path: pgadmin-patch.yaml
 - path: pvc-reference-patch.yaml
+- path: storage-patch.yaml
 
 secretGenerator:
 - literals:
