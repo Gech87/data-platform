@@ -12,6 +12,9 @@ resources:
 - ../../base/pgadmin
 - ../../base/airbyte
 
+- path: postgres-patch.yaml
+- path: pgadmin-patch.yaml
+- path: pvc-reference-patch.yaml
 
 secretGenerator:
 - literals:
@@ -26,16 +29,12 @@ secretGenerator:
   options:
     disableNameSuffixHash: true
 
-# Optional: Image tag overrides
 images:
 - name: postgres
   newTag: latest
+
 labels:
 - includeSelectors: true
   pairs:
     environment: dev
     tier: platform
-patches:
-- path: postgres-patch.yaml
-- path: pgadmin-patch.yaml
-- path: pvc-reference-patch.yaml

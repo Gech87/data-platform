@@ -8,6 +8,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: immediate # Use the 'immediate' storage class defined elsewhere
   resources:
     requests:
       storage: 1Gi
@@ -22,6 +23,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: immediate # Ensure consistent storage class
   resources:
     requests:
       storage: 10Gi
@@ -36,6 +38,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: immediate # Ensure consistent storage class
   resources:
     requests:
       storage: 5Gi

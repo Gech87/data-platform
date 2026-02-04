@@ -1,4 +1,4 @@
-#kubernetes/base/airbyte/db/deployment.yaml
+#/kubernetes/base/airbyte/db/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -47,6 +47,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce   # Airbyte DB typically requires ReadWriteOnce
+  storageClassName: immediate  # Use the 'immediate' storage class defined elsewhere
   resources:
     requests:
       storage: 5Gi    # Adjust size as needed
