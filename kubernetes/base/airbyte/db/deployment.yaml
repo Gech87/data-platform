@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: airbyte-db
   annotations:
-    argocd.argoproj.io/sync-wave: "3" # Ensure Airbyte DB is created after Postgres PVC
+    argocd.argoproj.io/sync-wave: "2" # Ensure Airbyte DB is created after Postgres PVC
 spec:
   replicas: 1
   selector:
