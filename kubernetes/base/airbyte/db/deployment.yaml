@@ -36,18 +36,3 @@ spec:
       - name: airbyte-db-data
         persistentVolumeClaim:
           claimName: airbyte-db-pvc
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: airbyte-db-pvc
-  annotations:
-    argocd.argoproj.io/sync-wave: "1" # Ensure PVC is created before the deployment
-spec:
-  accessModes:
-    - ReadWriteOnce   # Airbyte DB typically requires ReadWriteOnce
-  storageClassName: standard  # Use the 'standard' storage class defined elsewhere
-  resources:
-    requests:
-      storage: 5Gi    # Adjust size as needed
