@@ -12,6 +12,7 @@ resources:
 - ../../base/pgadmin
 - ../../base/airbyte
 
+patches:
 - path: postgres-patch.yaml
 - path: pgadmin-patch.yaml
 - path: pvc-reference-patch.yaml
